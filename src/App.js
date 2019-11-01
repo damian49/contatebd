@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Tabel from "./tabel";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contacte: [
+        { nume: "Ionescu", prenume: "Mircea", tel: "0745543432", id: 1 },
+        { nume: "Avram", prenume: "Andreea", tel: "0723143768", id: 2 },
+        { nume: "Popa", prenume: "Cristian", tel: "0761980654", id: 3 }
+      ]
+    };
+
+    // This binding is necessary to make `this` work in the callback
+    this.stergeContact = this.stergeContact.bind(this);
+  }
+
+  stergeContact(ev) {
+    const idSup = parseInt(ev.target.id);
+    const { contacte } = this.state;
+    const sirNou = contacte.filter(item => {
+      return item.id !== idSup;
+      //  Obiectul care are id === idSup nu se copiaza in noul sir
+    });
+
+    this.setState({
+      contacte: sirNou
+    });
+  }
+
+  render() {
+    const { contacte, stergeContact } = this.state;
+
+    return (
+      <div className="container">
+        <Tabel dateContacte={contacte} stergeContact={stergeContact} />
+      </div>
+    );
+  }
 }
 
 export default App;
