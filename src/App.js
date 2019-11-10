@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Tabel from "./tabel";
+import Formular from "./formular";
 import "./App.css";
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
 
     // This binding is necessary to make `this` work in the callback
     this.stergeContact = this.stergeContact.bind(this);
+    this.adaugContact = this.adaugContact.bind(this);
   }
 
   stergeContact(ev) {
@@ -30,12 +32,19 @@ class App extends Component {
     });
   }
 
-  render() {
-    const { contacte, stergeContact } = this.state;
+  adaugContact(contact) {
+    const contacteNou = [...this.state.contacte, contact];
+    this.setState({ contacte: contacteNou });
+  }
 
+  render() {
     return (
       <div className="container">
-        <Tabel dateContacte={contacte} stergeContact={stergeContact} />
+        <Tabel
+          dateContacte={this.state.contacte}
+          stergeContact={this.stergeContact}
+        />
+        <Formular adaugContact={this.adaugContact} />
       </div>
     );
   }
