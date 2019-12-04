@@ -1,50 +1,67 @@
 import React, { Component } from "react";
 import Tabel from "./tabel";
 import Formular from "./formular";
-import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contacte: [
-        { nume: "Ionescu", prenume: "Mircea", tel: "0745543432", id: 1 },
-        { nume: "Avram", prenume: "Andreea", tel: "0723143768", id: 2 },
-        { nume: "Popa", prenume: "Cristian", tel: "0761980654", id: 3 }
-      ]
+      contacte: []
     };
-
-    // This binding is necessary to make `this` work in the callback
     this.stergeContact = this.stergeContact.bind(this);
     this.adaugContact = this.adaugContact.bind(this);
+    this.reincarc = this.reincarc.bind(this);
+  }
+
+  reincarc() {
+    //  reincarc lista de contacte din baza de date
+
+    fetch("http://localhost/contacte/api/listacon.php")
+      .then(rezultat => {
+        return rezultat.json();
+      })
+      .then(lista => this.setState({ contacte: lista }))
+      .catch(error => console.log("Request failed", error));
   }
 
   stergeContact(ev) {
-    const idSup = parseInt(ev.target.id);
-    //console.log(`Linie: ${idSup}`);
-    const { contacte } = this.state;
-    const sirNou = contacte.filter(item => {
-      return item.id !== idSup;
-      //  Obiectul care are id == idSup nu se copiaza in noul sir
-    });
-
-    this.setState({
-      contacte: sirNou
-    });
+    const idSup = ev.target.id;
+    //  Construiesc un obiect FormData
+    const formData = new FormData();
+    console.log(`id: ${idSup} adica ${parseInt(idSup)}`);
+    formData.append("id", parseInt(idSup));
+    //  Corectez in baza de date
+    fetch("http://localhost/contacte/api/delcon.php", {
+      body: formData,
+      method: "post"
+    }).then(this.reincarc);
   }
 
   adaugContact(contact) {
-    const contacteNou = [...this.state.contacte, contact];
-    this.setState({ contacte: contacteNou });
+    //  Construiesc un obiect FormData
+    const formData = new FormData();
+    formData.append("nume", contact.nume);
+    formData.append("prenume", contact.prenume);
+    formData.append("tel", contact.tel);
+
+    //  Incarc contactul in baza de date
+    fetch("http://localhost/contacte/api/adacon.php", {
+      body: formData,
+      method: "post"
+    }).then(this.reincarc);
+  }
+
+  componentDidMount() {
+    this.reincarc();
   }
 
   render() {
+    const { contacte } = this.state;
     return (
       <div className="container">
-        <Tabel
-          dateContacte={this.state.contacte}
-          stergeContact={this.stergeContact}
-        />
+        <h1 className="mt-4">Lista contactelor</h1>
+        <Tabel dateContacte={contacte} stergeContact={this.stergeContact} />
+        <h2 className="mt-4">Contact nou</h2>
         <Formular adaugContact={this.adaugContact} />
       </div>
     );

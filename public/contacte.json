@@ -1,0 +1,5 @@
+[
+  { "nume": "Ionescu", "prenume": "Mircea", "tel": "0745543432", "id": 1 },
+  { "nume": "Avram", "prenume": "Andreea", "tel": "0723143768", "id": 2 },
+  { "nume": "Popa", "prenume": "Cristian", "tel": "0761980654", "id": 3 }
+]
