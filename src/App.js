@@ -21,10 +21,11 @@ class App extends Component {
 
   stergeContact(ev) {
     const idSup = parseInt(ev.target.id);
+    //console.log(`Linie: ${idSup}`);
     const { contacte } = this.state;
     const sirNou = contacte.filter(item => {
       return item.id !== idSup;
-      //  Obiectul care are id === idSup nu se copiaza in noul sir
+      //  Obiectul care are id == idSup nu se copiaza in noul sir
     });
 
     this.setState({

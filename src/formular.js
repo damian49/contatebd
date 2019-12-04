@@ -38,7 +38,7 @@ class Formular extends Component {
     return (
       <form onSubmit={this.onFormSubmit}>
         <div className="form-row">
-          <div className="col-md-4 mb-3">
+          <div className="form-group col-md-4 mb-3">
             <label htmlFor="nume">Nume</label>
             <input
               type="text"
@@ -50,7 +50,7 @@ class Formular extends Component {
             />
           </div>
 
-          <div className="col-md-4 mb-3">
+          <div className="form-group col-md-4 mb-3">
             <label htmlFor="prenume">Prenume</label>
             <input
               type="text"
@@ -61,7 +61,7 @@ class Formular extends Component {
               onChange={this.handleChange}
             />
           </div>
-          <div className="col-md-4 mb-3">
+          <div className="form-group col-md-4 mb-3">
             <label htmlFor="tel">Telefon</label>
             <input
               type="text"
