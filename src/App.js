@@ -28,7 +28,6 @@ class App extends Component {
     const idSup = ev.target.id;
     //  Construiesc un obiect FormData
     const formData = new FormData();
-    console.log(`id: ${idSup} adica ${parseInt(idSup)}`);
     formData.append("id", parseInt(idSup));
     //  Corectez in baza de date
     fetch("http://localhost/contacte/api/delcon.php", {
