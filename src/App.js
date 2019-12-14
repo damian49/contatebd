@@ -15,43 +15,45 @@ class App extends Component {
 
   reincarc() {
     //  reincarc lista de contacte din baza de date
-
-    fetch("http://localhost/contacte/api/listacon.php")
+    return fetch("http://localhost/contactebd/api/listacon.php")
       .then(rezultat => {
         return rezultat.json();
       })
-      .then(lista => this.setState({ contacte: lista }))
       .catch(error => console.log("Request failed", error));
   }
 
   stergeContact(ev) {
-    const idSup = ev.target.id;
-    //  Construiesc un obiect FormData
-    const formData = new FormData();
-    formData.append("id", parseInt(idSup));
+    //  Construiesc sirul de caractere care se trimite scriptului PHP
+    const dateScript = `id=${ev.target.id}`;
+    const config = {
+      method: "POST",
+      headers: { "Content-type": "application/x-www-form-urlencoded" },
+      body: dateScript // body data type must match "Content-Type" header
+    };
+
     //  Corectez in baza de date
-    fetch("http://localhost/contacte/api/delcon.php", {
-      body: formData,
-      method: "post"
-    }).then(this.reincarc);
+    fetch("http://localhost/contactebd/api/delcon.php", config)
+      .then(this.reincarc)
+      .then(lista => this.setState({ contacte: lista }));
   }
 
   adaugContact(contact) {
-    //  Construiesc un obiect FormData
-    const formData = new FormData();
-    formData.append("nume", contact.nume);
-    formData.append("prenume", contact.prenume);
-    formData.append("tel", contact.tel);
+    //  Construiesc sirul de caractere care se trimite scriptului PHP
+    const dateScript = `nume=${contact.nume}&prenume=${contact.prenume}&tel=${contact.tel}`;
+    const config = {
+      method: "POST",
+      headers: { "Content-type": "application/x-www-form-urlencoded" },
+      body: dateScript
+    };
 
     //  Incarc contactul in baza de date
-    fetch("http://localhost/contacte/api/adacon.php", {
-      body: formData,
-      method: "post"
-    }).then(this.reincarc);
+    fetch("http://localhost/contactebd/api/adacon.php", config)
+      .then(this.reincarc)
+      .then(lista => this.setState({ contacte: lista }));
   }
 
   componentDidMount() {
-    this.reincarc();
+    this.reincarc().then(lista => this.setState({ contacte: lista }));
   }
 
   render() {
