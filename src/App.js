@@ -19,7 +19,8 @@ class App extends Component {
       .then(rezultat => {
         return rezultat.json();
       })
-      .catch(error => console.log("Request failed", error));
+      .then(lista => this.setState({ contacte: lista }))
+      .catch(error => console.log("Request failed: ", error));
   }
 
   stergeContact(ev) {
@@ -33,8 +34,7 @@ class App extends Component {
 
     //  Corectez in baza de date
     fetch("http://localhost/contactebd/api/delcon.php", config)
-      .then(this.reincarc)
-      .then(lista => this.setState({ contacte: lista }));
+      .then(this.reincarc);  //  this.reincarc a returnat lista decodficata
   }
 
   adaugContact(contact) {
@@ -48,12 +48,11 @@ class App extends Component {
 
     //  Incarc contactul in baza de date
     fetch("http://localhost/contactebd/api/adacon.php", config)
-      .then(this.reincarc)
-      .then(lista => this.setState({ contacte: lista }));
+      .then(this.reincarc);  //  this.reincarc a returnat lista decodficata
   }
 
   componentDidMount() {
-    this.reincarc().then(lista => this.setState({ contacte: lista }));
+    this.reincarc();     //  this.reincarc a returnat lista decodficata
   }
 
   render() {
