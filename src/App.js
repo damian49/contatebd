@@ -35,7 +35,7 @@ class App extends Component {
     //  Corectez in baza de date
     fetch("http://localhost/contactebd/api/delcon.php", config).then(
       this.reincarc
-    ); //  this.reincarc a returnat lista decodficata
+    ); 
   }
 
   adaugContact(contact) {
@@ -50,11 +50,11 @@ class App extends Component {
     //  Incarc contactul in baza de date
     fetch("http://localhost/contactebd/api/adacon.php", config).then(
       this.reincarc
-    ); //  this.reincarc a returnat lista decodficata
+    ); 
   }
 
   componentDidMount() {
-    this.reincarc(); //  this.reincarc a returnat lista decodficata
+    this.reincarc(); 
   }
 
   render() {
